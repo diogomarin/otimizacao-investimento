@@ -17,9 +17,7 @@ pessoas =[('Amanda','CWB'),
 destino = 'GRU'
 
 voos = {}
-for linha in open('voos.txt'):
-    #for linha in open("algo-otimizacao-python\viagem-em-grupo\otimizacao_voos.py", "r"):
-    #print(linha)
+for linha in open('D:/GitHub/pratica-code/algo-otimizacao-python/viagem-em-grupo/voos.txt'):
     _origem, _destino, _saida, _chegada, _preco = linha.split(',')
     voos.setdefault((_origem, _destino), [])
     voos[(_origem, _destino)].append((_saida, _chegada, int(_preco)))
