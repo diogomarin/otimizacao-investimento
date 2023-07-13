@@ -37,15 +37,15 @@ def imprimir_agenda(agenda):
                                                         volta[0], volta[1], volta[2]))
 
 agenda = [1,4, 3,2, 7,3, 6,3, 2,4, 5,3]
-imprimir_agenda(agenda)
+#imprimir_agenda(agenda)
 
 def get_minutos(hora):
     x = time.strptime(hora, '%H:%M')
     minutos = x[3] * 60 + x[4]
     return minutos
 
-get_minutos('23:59')
-get_minutos('00:00')
+#get_minutos('23:59')
+#get_minutos('00:00')
 
 def funcao_custo(solucao):
     preco_total = 0
@@ -103,4 +103,38 @@ def pesquisa_randomica(dominio, funcao_custo):
 dominio =[(0,9)] * (len(pessoas) * 2)
 solucao_randomica = pesquisa_randomica(dominio, funcao_custo)
 custo_randomica = funcao_custo(solucao_randomica)
+print('------------------------')
+print('SOLUCAO APENAS ALEATORIA')
+print('------------------------')
 imprimir_agenda(solucao_randomica)
+
+def subida_encosta(dominio, funcao_custo):
+    solucao = [random.randint(dominio[i][0], dominio[i][1]) for i in range(len(dominio))]
+    while True:
+        vizinhos = []
+
+        for i in range(len(dominio)):
+            if solucao[i] > dominio[i][0]:
+                 if solucao [i] != dominio[i][1]:
+                     vizinhos.append(solucao[0:i] + [solucao[i] + 1] + solucao[i + 1:])
+            if solucao [i] < dominio[i][1]:
+                if solucao[i] != dominio[i][0]:
+                  vizinhos.append(solucao[0:i] + [solucao[i] - 1] + solucao [i + 1:])
+        atual = funcao_custo(solucao)
+        melhor = atual
+        for i in range(len(vizinhos)):
+            custo = funcao_custo(vizinhos[i])
+            if custo < melhor:
+                melhor = custo
+                solucao = vizinhos[i]
+        
+        if melhor == atual:
+            break
+    return solucao
+
+solucao_subida_encosta = subida_encosta(dominio, funcao_custo)
+custo_subida_encosta = funcao_custo(solucao_subida_encosta)
+print('------------------------')
+print('SOLUCAO HILL CLIMB')
+print('------------------------')
+imprimir_agenda(solucao_subida_encosta)
