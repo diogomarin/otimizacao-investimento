@@ -1,3 +1,5 @@
+import random
+
 dormitorios = ['Sao Paulo', 'Flamengo', 'Coritiba', 'Cruzeiro', 'Fortaleza']
 
 preferenciais = [('Amanda', ('Cruzeiro', 'Coritiba')),
@@ -24,7 +26,7 @@ def imprimir_solucao(solucao):
         print(preferenciais[i][0], dormitorio)
         del vagas[atual]
     
-imprimir_solucao([6, 1, 2, 1, 2, 0, 2, 2, 0, 0])
+#imprimir_solucao([6, 1, 2, 1, 2, 0, 2, 2, 0, 0])
 
 #penalidades - parte principal de um algoritmo de otimizacao (variaveis)
 #colocar o aluno em um quarto que nao foi de sua preferencia
@@ -47,4 +49,25 @@ def funcao_custo(solucao):
     
     return custo
 
-funcao_custo([6, 1, 2, 1, 2, 0, 2, 2, 0, 0])
+#funcao_custo([6, 1, 2, 1, 2, 0, 2, 2, 0, 0])
+
+#implementacao da pesquisa randomica
+def pesquisa_randomica(dominio, funcao_custo):
+    melhor_custo = 999999999
+    for i in range(0, 10000):
+        solucao = [random.randint(dominio[i][0], dominio[i][1]) for i in range(len(dominio))]
+        custo = funcao_custo(solucao)
+        if custo < melhor_custo:
+            melhor_custo = custo
+            melhor_solucao = solucao
+    return melhor_solucao
+
+solucao_randomica = pesquisa_randomica(dominio, funcao_custo)
+custo_randomica = funcao_custo(solucao_randomica)
+print('------------------------')
+print('SOLUCAO APENAS ALEATORIA')
+print('------------------------')
+imprimir_solucao(solucao_randomica)
+
+
+
