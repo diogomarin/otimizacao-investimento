@@ -185,4 +185,12 @@ def mutacao(dominio, passo, solucao):
 #s = [1, 4, 3, 2, 7, 3, 6, 3, 2, 4, 5, 3]
 #s1 = mutacao(dominio, 1, s)
 
+def cruzamento(dominio, solucao1, solucao2):
+    i = random.randint(1, len(dominio)- 2)
+    return solucao1[0:i] + solucao2[i:]
+
+#s1 = [1, 4, 3, 2, 7, 3, 6, 3, 2, 4, 5, 3]
+#s2 = [0, 1, 2, 5, 8, 9, 2, 3, 5, 1, 0, 6]
+#s3 = cruzamento(dominio, s1, s2)
+
             
