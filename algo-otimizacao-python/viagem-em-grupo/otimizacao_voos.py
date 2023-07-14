@@ -168,3 +168,21 @@ print('------------------------')
 print('SOLUCAO TEMPERA SIMULADA')
 print('------------------------')
 imprimir_agenda(solucao_tempera_simulada)
+
+def mutacao(dominio, passo, solucao):
+    i = random.randint(0, len(dominio) - 1)
+    mutante = solucao
+    
+    if random.random() < 0.5:
+        if solucao[i] != dominio[i][0]:
+            mutante = solucao[0:i] + [solucao[i] - passo] + solucao[i + 1:]
+    else:
+        if solucao[i] != dominio[i][1]:
+            mutante = solucao[0:i] + [solucao[i] + passo] + solucao[i + 1:]
+    
+    return mutante
+
+#s = [1, 4, 3, 2, 7, 3, 6, 3, 2, 4, 5, 3]
+#s1 = mutacao(dominio, 1, s)
+
+            
