@@ -12,7 +12,7 @@ for i in range(len(opcoes_investimento)):
 
 
 def funcao_objetivo(solucao):
-    capital_disponivel = 2700000
+    capital_disponivel = 2400000
     capital_investido = 0
     retorno_a = 0
     retorno_m = 0
@@ -54,4 +54,28 @@ def dominio_aleatorio():
 
     return novo_dominio
 
-# funcao_objetivo(dominio_aleatorio())
+#funcao_objetivo(dominio_aleatorio())
+
+def mutacao(dominio, passo, solucao):
+    i = random.randint(0, (len(dominio) - 1))
+    mutante = solucao
+    
+    if random.random() < 0.5:
+        if solucao[i] != dominio[i]:
+            mutante = solucao[0:i] + [solucao[i] - passo] + solucao[i + 1:]
+    else:
+        if solucao[i] != dominio[i]:
+            mutante = solucao[0:i] + [solucao[i] + passo] + solucao[i + 1:]
+    
+    return mutante
+
+# s = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+# mutacao(dominio, 1, s)
+
+def cruzamento(dominio, solucao1, solucao2):
+    i = random.randint(0, (len(dominio) - 1))
+    return solucao1[0:i] + solucao2[i:]
+
+# s1 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+# s2 = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+# cruzamento(dominio, s1, s2)
