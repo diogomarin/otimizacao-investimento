@@ -11,7 +11,7 @@ for i in range(len(opcoes_investimento)):
     dominio.append(int(opcoes_investimento[i][0]) - 1)
 
 
-def funcao_objetivo(solucao):
+def funcao_objeto(solucao):
     capital_disponivel = 2400000
     capital_investido = 0
     retorno_a = 0
@@ -36,13 +36,15 @@ def funcao_objetivo(solucao):
             
         retorno_esperado = retorno_a + retorno_m + retorno_b
 
-    return ('Cappital Investido:', capital_investido,
-            'Retorno Esperado:', retorno_esperado,
-            'Retorno Risco Alto:', retorno_a,
-            'Retorno Risco Médio:', retorno_m,
-            'Retorno Risco Baixo:',  retorno_b)
+    # return ('Cappital Investido:', capital_investido,
+    #         'Retorno Esperado:', retorno_esperado,
+    #         'Retorno Risco Alto:', retorno_a,
+    #         'Retorno Risco Médio:', retorno_m,
+    #         'Retorno Risco Baixo:',  retorno_b)
+    
+    return retorno_esperado
 
-#funcao_objetivo(dominio)
+#funcao_objeto(dominio)
 
 
 def dominio_aleatorio():
@@ -54,17 +56,18 @@ def dominio_aleatorio():
 
     return novo_dominio
 
-#funcao_objetivo(dominio_aleatorio())
+#funcao_objeto(dominio_aleatorio())
+
 
 def mutacao(dominio, passo, solucao):
     i = random.randint(0, (len(dominio) - 1))
     mutante = solucao
     
     if random.random() < 0.5:
-        if solucao[i] != dominio[i]:
+        if solucao[i] != dominio[i] and solucao[i] != 0:
             mutante = solucao[0:i] + [solucao[i] - passo] + solucao[i + 1:]
     else:
-        if solucao[i] != dominio[i]:
+        if solucao[i] != dominio[i] and solucao[i] != 12:
             mutante = solucao[0:i] + [solucao[i] + passo] + solucao[i + 1:]
     
     return mutante
@@ -79,3 +82,31 @@ def cruzamento(dominio, solucao1, solucao2):
 # s1 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 # s2 = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 # cruzamento(dominio, s1, s2)
+
+def genetico(dominio_aleatorio, funcao_objeto, tamanho_populacao = 10, passo = 1, probabilidade_mutacao = 0.2, elitismo = 0.2, numero_geracoes = 100):
+    populacao = []
+    for i in range(tamanho_populacao):
+        solucao = dominio_aleatorio()
+        populacao.append(solucao)
+        
+    numero_elitismo = int(elitismo * tamanho_populacao)
+    
+    for i in range(numero_geracoes):
+        valores = [(funcao_objeto(individuo), individuo) for individuo in populacao]
+        valores.sort()
+        individuos_ordenados = [individuo for (valor, individuo) in valores]
+        
+        populacao = individuos_ordenados[0:numero_elitismo]
+        
+        while len(populacao) < tamanho_populacao:
+            if random.random() < probabilidade_mutacao:
+                m = random.randint(0, numero_elitismo)
+                populacao.append(mutacao(solucao, passo, individuos_ordenados[m]))
+            else:
+                c1 = random.randint(0, numero_elitismo)
+                c2 = random.randint(0, numero_elitismo)
+                populacao.append(cruzamento(solucao, individuos_ordenados[c1], individuos_ordenados[c2]))
+    
+    return valores[0]
+
+#solucao_genetico = genetico(dominio_aleatorio, funcao_objeto)
