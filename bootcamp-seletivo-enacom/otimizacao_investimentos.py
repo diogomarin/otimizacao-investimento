@@ -1,4 +1,5 @@
 import random
+import pytest 
 
 opcoes_investimento = {}
 pesos = {}
@@ -109,8 +110,6 @@ def genetico(dominio_aleatorio, funcao_objeto, tamanho_populacao = 50, p = 0.9, 
     
     for i in range(numero_geracoes):
         carteiras = [(funcao_objeto(individuo), individuo) for individuo in populacao]
-        # carteiras.sort()
-        # individuos_ordenados = [individuo for (retorno, individuo) in carteiras]
         
         for i in range(len(carteiras) - 1):
             if carteiras[i][0][0] >= 2000000:
@@ -134,3 +133,7 @@ def genetico(dominio_aleatorio, funcao_objeto, tamanho_populacao = 50, p = 0.9, 
     return carteiras
 
 solucao_genetico = genetico(dominio_aleatorio, funcao_objeto)
+
+
+def test_funcao_objeto():
+    assert 820000 == funcao_objeto([1, 1, 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1])
