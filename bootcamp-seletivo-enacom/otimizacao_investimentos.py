@@ -1,5 +1,4 @@
 import random
-import pytest 
 
 opcoes_investimento = {}
 pesos = {}
@@ -17,7 +16,7 @@ dominio = []
 for i in range(1, len(opcoes_investimento) + 1):
     dominio.append((opcoes_investimento[i][0][0]))
 
-def funcao_objeto(solucao):
+def funcao_objetivo(solucao):
     capital_disponivel = 2400000
     capital_investido = 0
     retorno_a = 0
@@ -49,8 +48,6 @@ def funcao_objeto(solucao):
         resultado = [retorno_final, capital_investido, retorno_por_risco, carteira_por_risco]    
 
     return resultado
-   
-# funcao_objeto(dominio)
 
 def dominio_aleatorio():
     novo_dominio = []
@@ -60,9 +57,6 @@ def dominio_aleatorio():
             novo_dominio.append(d)
 
     return novo_dominio
-
-funcao_objeto(dominio_aleatorio())
-
 
 def mutacao(dominio, p, solucao):    
     i = random.randint(0, (len(dominio) - 1))
@@ -82,9 +76,6 @@ def mutacao(dominio, p, solucao):
 
     return mutante
 
-# solucao = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-# mutacao(dominio, 0.6, solucao)
-
 def cruzamento(dominio, solucao1, solucao2):
     i = random.randint(0, (len(dominio) - 1))
     dict_aux = dict.fromkeys(solucao1[0:i] + solucao2[i:])
@@ -94,13 +85,9 @@ def cruzamento(dominio, solucao1, solucao2):
     
     return cross    
 
-# s1 = dominio_aleatorio()
-# s2 = dominio_aleatorio()
-# cruzamento(dominio, s1, s2)
-
-def genetico(dominio_aleatorio, funcao_objeto, tamanho_populacao = 50, p = 0.9, probabilidade_mutacao = 0.2, elitismo = 0.2, numero_geracoes = 100):   
+def genetico(dominio_aleatorio, funcao_objetivo, tamanho_populacao = 1000, p = 0.9, probabilidade_mutacao = 0.2, elitismo = 0.2, numero_geracoes = 100):   
     populacao = []
-    verificao = []
+    carteiras_verificadas = []
     
     for i in range(tamanho_populacao):
         dominio = dominio_aleatorio()
@@ -109,15 +96,16 @@ def genetico(dominio_aleatorio, funcao_objeto, tamanho_populacao = 50, p = 0.9, 
     numero_elitismo = int(elitismo * tamanho_populacao)
     
     for i in range(numero_geracoes):
-        carteiras = [(funcao_objeto(individuo), individuo) for individuo in populacao]
+        carteiras = [(funcao_objetivo(individuo), individuo) for individuo in populacao]
+        # carteiras.sort()
+        # individuos_ordenados = [individuo for (retorno, individuo) in carteiras]
         
         for i in range(len(carteiras) - 1):
-            if carteiras[i][0][0] >= 2000000:
-                if len(carteiras[i][0][3][0]) >= 1 and len(carteiras[i][0][3][1]) >= 2 and len(carteiras[i][0][3][2]) >= 2:
-                    verificao.append(carteiras[i])
+            if len(carteiras[i][0][3][0]) >= 1 and len(carteiras[i][0][3][1]) >= 2 and len(carteiras[i][0][3][2]) >= 2:
+                carteiras_verificadas.append(carteiras[i])
         
-        verificao.sort()
-        individuos_ordenados = [individuo for (retorno, individuo) in verificao]
+        carteiras_verificadas.sort()
+        individuos_ordenados = [individuo for (retorno, individuo) in carteiras_verificadas]
         
         populacao = individuos_ordenados[0:numero_elitismo]
         
@@ -130,10 +118,23 @@ def genetico(dominio_aleatorio, funcao_objeto, tamanho_populacao = 50, p = 0.9, 
                 c2 = random.randint(0, numero_elitismo)
                 populacao.append(cruzamento(dominio, individuos_ordenados[c1], individuos_ordenados[c2]))
     
-    return carteiras
+    carteiras_verificadas.sort(reverse=True)
+    
+    return carteiras_verificadas[0]
 
-solucao_genetico = genetico(dominio_aleatorio, funcao_objeto)
+solucao_genetico = genetico(dominio_aleatorio, funcao_objetivo)
 
-
-def test_funcao_objeto():
-    assert 820000 == funcao_objeto([1, 1, 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1])
+print('Melhor carteira para investimento é composta por:')
+print('- - - - - - - - - - - - - - - - - - - - - - - - -')
+print('Opcoes de Alto Risco:', solucao_genetico[0][3][0])
+print('Retorno Esperado para as Opcoes de Alto Risco:', solucao_genetico[0][2][0])
+print('- - - - - - - - - - - - - - - - - - - - - - - - -')
+print('Opcoes de Medio:', solucao_genetico[0][3][1])
+print('Retorno Esperado para as Opcoes de Medio Risco:', solucao_genetico[0][2][1])
+print('- - - - - - - - - - - - - - - - - - - - - - - - -')
+print('Opcoes de Baixo Risco:', solucao_genetico[0][3][2])
+print('Retorno Esperado para as Opcoes de Baixo Risco:', solucao_genetico[0][2][2])
+print('- - - - - - - - - - - - - - - - - - - - - - - - -')
+print('Capital Investido:', solucao_genetico[0][1])
+print('Retorno Esperado:', solucao_genetico[0][0])
+print('Atratividade:', round((solucao_genetico[0][0] / solucao_genetico[0][1]),2))
