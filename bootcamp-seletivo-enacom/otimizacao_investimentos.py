@@ -1,15 +1,20 @@
 import random
 
-opcoes_investimento = []
+opcoes_investimento = {}
+pesos = {}
+
 for linha in open('D:/GitHub/pratica-code/bootcamp-seletivo-enacom/investimentos.txt'):
     _opcao, _descricao, _custo, _retorno, _risco, _outro = linha.split(',')
-    opcoes_investimento.append((_opcao, _descricao, int(_custo), int(_retorno), _risco))
-
-
+    
+    opcoes_investimento.setdefault((int(_opcao)), [])
+    opcoes_investimento[(int(_opcao))].append((int(_opcao), _descricao, int(_custo), int(_retorno), _risco))
+    
+    pesos.setdefault((int(_opcao)), [])
+    pesos[(int(_opcao))].append((round(int(_retorno) / int(_custo),2)))
+    
 dominio = []
-for i in range(len(opcoes_investimento)):
-    dominio.append(int(opcoes_investimento[i][0]) - 1)
-
+for i in range(1, len(opcoes_investimento) + 1):
+    dominio.append((opcoes_investimento[i][0][0]))
 
 def funcao_objeto(solucao):
     capital_disponivel = 2400000
@@ -17,96 +22,115 @@ def funcao_objeto(solucao):
     retorno_a = 0
     retorno_m = 0
     retorno_b = 0
-    carteira = []
+    carteira_a = []
+    carteira_m = []
+    carteira_b = []
     atual = opcoes_investimento
-    
-    for i in range(len(solucao)):
-        if (atual[solucao[i]][4] == 'Alto') and (retorno_a + atual[solucao[i]][3] <= 900000) and (capital_investido + atual[solucao[i]][2] <= capital_disponivel):
-            retorno_a += atual[solucao[i]][3]
-            capital_investido += atual[solucao[i]][2]
-            carteira.append((atual[solucao[i]][0], atual[solucao[i]][1]))
-        elif (atual[solucao[i]][4] == 'Médio') and (retorno_m + atual[solucao[i]][3] <= 1500000) and (capital_investido + atual[solucao[i]][2] <= capital_disponivel):
-            retorno_m += atual[solucao[i]][3]
-            capital_investido += atual[solucao[i]][2]
-            carteira.append((atual[solucao[i]][0], atual[solucao[i]][1]))
-        elif (atual[solucao[i]][4] == 'Baixo') and (retorno_b + atual[solucao[i]][3] <= 1200000) and (capital_investido + atual[solucao[i]][2] <= capital_disponivel):
-            retorno_b += atual[solucao[i]][3]
-            capital_investido += atual[solucao[i]][2]
-            carteira.append((atual[solucao[i]][0], atual[solucao[i]][1]))
+
+    for i in range(1, len(solucao)):
+        if (atual[solucao[i]][0][4] == 'Alto') and (retorno_a + atual[solucao[i]][0][3] <= 900000) and (capital_investido + atual[solucao[i]][0][2] <= capital_disponivel):
+            retorno_a += atual[solucao[i]][0][3]
+            capital_investido += atual[solucao[i]][0][2]
+            carteira_a.append((atual[solucao[i]][0][0], atual[solucao[i]][0][1]))
+        elif (atual[solucao[i]][0][4] == 'Médio') and (retorno_m + atual[solucao[i]][0][3] <= 1500000) and (capital_investido + atual[solucao[i]][0][2] <= capital_disponivel):
+            retorno_m += atual[solucao[i]][0][3]
+            capital_investido += atual[solucao[i]][0][2]
+            carteira_m.append((atual[solucao[i]][0][0], atual[solucao[i]][0][1]))
+        elif (atual[solucao[i]][0][4] == 'Baixo') and (retorno_b + atual[solucao[i]][0][3] <= 1200000) and (capital_investido + atual[solucao[i]][0][2] <= capital_disponivel):
+            retorno_b += atual[solucao[i]][0][3]
+            capital_investido += atual[solucao[i]][0][2]
+            carteira_b.append((atual[solucao[i]][0][0], atual[solucao[i]][0][1]))
             
-        retorno_esperado = retorno_a + retorno_m + retorno_b
+        retorno_por_risco = [retorno_a, retorno_m, retorno_b]
+        carteira_por_risco = [carteira_a, carteira_m, carteira_b]
+        retorno_final = retorno_a + retorno_m + retorno_b
+        
+        resultado = [retorno_final, capital_investido, retorno_por_risco, carteira_por_risco]    
 
-    # return ('Cappital Investido:', capital_investido,
-    #         'Retorno Esperado:', retorno_esperado,
-    #         'Retorno Risco Alto:', retorno_a,
-    #         'Retorno Risco Médio:', retorno_m,
-    #         'Retorno Risco Baixo:',  retorno_b)
-    
-    return retorno_esperado
-
-#funcao_objeto(dominio)
-
+    return resultado
+   
+# funcao_objeto(dominio)
 
 def dominio_aleatorio():
     novo_dominio = []
     while len(novo_dominio) != len(dominio):
-        d = random.randint(0, (len(dominio) - 1))
+        d = random.randint(1, (len(dominio)))
         if d not in novo_dominio:
             novo_dominio.append(d)
 
     return novo_dominio
 
-#funcao_objeto(dominio_aleatorio())
+funcao_objeto(dominio_aleatorio())
 
 
-def mutacao(dominio, passo, solucao):
+def mutacao(dominio, p, solucao):    
     i = random.randint(0, (len(dominio) - 1))
-    mutante = solucao
+    mutante = []
     
-    if random.random() < 0.5:
-        if solucao[i] != dominio[i] and solucao[i] != 0:
-            mutante = solucao[0:i] + [solucao[i] - passo] + solucao[i + 1:]
+    if random.random() >= 0.5:
+        if pesos[solucao[i]][0] < p:
+            mutante = random.sample(solucao, len(solucao))
+        if pesos[solucao[i]][0] >= p:
+            mutante.append(solucao[i])
+            while len(mutante) != len(dominio):
+                d = random.randint(1, (len(dominio)))
+                if d not in mutante:
+                    mutante.append(d)
     else:
-        if solucao[i] != dominio[i] and solucao[i] != 12:
-            mutante = solucao[0:i] + [solucao[i] + passo] + solucao[i + 1:]
-    
+        mutante = random.sample(solucao, len(solucao))
+
     return mutante
 
-# s = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-# mutacao(dominio, 1, s)
+# solucao = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+# mutacao(dominio, 0.6, solucao)
 
 def cruzamento(dominio, solucao1, solucao2):
     i = random.randint(0, (len(dominio) - 1))
-    return solucao1[0:i] + solucao2[i:]
+    dict_aux = dict.fromkeys(solucao1[0:i] + solucao2[i:])
+    unicos = list(dict_aux)
+    falta = list(set(dominio) - set(unicos))
+    cross = unicos + falta
+    
+    return cross    
 
-# s1 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-# s2 = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+# s1 = dominio_aleatorio()
+# s2 = dominio_aleatorio()
 # cruzamento(dominio, s1, s2)
 
-def genetico(dominio_aleatorio, funcao_objeto, tamanho_populacao = 10, passo = 1, probabilidade_mutacao = 0.2, elitismo = 0.2, numero_geracoes = 100):
+def genetico(dominio_aleatorio, funcao_objeto, tamanho_populacao = 50, p = 0.9, probabilidade_mutacao = 0.2, elitismo = 0.2, numero_geracoes = 100):   
     populacao = []
+    verificao = []
+    
     for i in range(tamanho_populacao):
-        solucao = dominio_aleatorio()
-        populacao.append(solucao)
+        dominio = dominio_aleatorio()
+        populacao.append(dominio)
         
     numero_elitismo = int(elitismo * tamanho_populacao)
     
     for i in range(numero_geracoes):
-        valores = [(funcao_objeto(individuo), individuo) for individuo in populacao]
-        valores.sort()
-        individuos_ordenados = [individuo for (valor, individuo) in valores]
+        carteiras = [(funcao_objeto(individuo), individuo) for individuo in populacao]
+        # carteiras.sort()
+        # individuos_ordenados = [individuo for (retorno, individuo) in carteiras]
+        
+        for i in range(len(carteiras) - 1):
+            if carteiras[i][0][0] >= 2000000:
+                if len(carteiras[i][0][3][0]) >= 1 and len(carteiras[i][0][3][1]) >= 2 and len(carteiras[i][0][3][2]) >= 2:
+                    verificao.append(carteiras[i])
+        
+        verificao.sort()
+        individuos_ordenados = [individuo for (retorno, individuo) in verificao]
         
         populacao = individuos_ordenados[0:numero_elitismo]
         
         while len(populacao) < tamanho_populacao:
             if random.random() < probabilidade_mutacao:
                 m = random.randint(0, numero_elitismo)
-                populacao.append(mutacao(solucao, passo, individuos_ordenados[m]))
+                populacao.append(mutacao(dominio, p, individuos_ordenados[m]))
             else:
                 c1 = random.randint(0, numero_elitismo)
                 c2 = random.randint(0, numero_elitismo)
-                populacao.append(cruzamento(solucao, individuos_ordenados[c1], individuos_ordenados[c2]))
+                populacao.append(cruzamento(dominio, individuos_ordenados[c1], individuos_ordenados[c2]))
     
-    return valores[0]
+    return carteiras
 
-#solucao_genetico = genetico(dominio_aleatorio, funcao_objeto)
+solucao_genetico = genetico(dominio_aleatorio, funcao_objeto)
