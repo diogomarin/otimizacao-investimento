@@ -11,4 +11,11 @@ from app import *
 content = html.Div(id="page-content")
 
 
-app.layout
+app.layout = dbc.Container(chilren=[
+
+
+], fluid=True,)
+
+
+if __name__ == '__main__':
+    app.run_server(port=8051,  debug=True)
