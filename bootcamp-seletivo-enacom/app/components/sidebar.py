@@ -52,6 +52,8 @@ layout = dbc.Col([
                 ], width=4),                
 
             ]),
+        
+        ])
 
             # --- Modal Investimento --- #
 
