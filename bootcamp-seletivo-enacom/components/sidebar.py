@@ -9,10 +9,10 @@ import pandas as pd
 from app import app
 #from globals import *
 
-df_categorias = pd.read_csv("aplicativo/df_categorias.csv", index_col=0)
+df_categorias = pd.read_csv("df_categorias.csv", index_col=0)
 categorias = df_categorias.values.tolist()
 
-df_prioridades = pd.read_csv("aplicativo/df_prioridades.csv", index_col=0)
+df_prioridades = pd.read_csv("df_prioridades.csv", index_col=0)
 prioridades = df_prioridades.values.tolist()
 
 # ===== Layout ===== #
