@@ -1,0 +1,9 @@
+colorama @ file:///home/conda/feedstock_root/build_artifacts/colorama_1666700638685/work
+exceptiongroup @ file:///home/conda/feedstock_root/build_artifacts/exceptiongroup_1692026125334/work
+iniconfig @ file:///home/conda/feedstock_root/build_artifacts/iniconfig_1673103042956/work
+packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1696202382185/work
+pluggy @ file:///home/conda/feedstock_root/build_artifacts/pluggy_1693086607691/work
+pytest @ file:///home/conda/feedstock_root/build_artifacts/pytest_1698233724984/work
+setuptools==68.0.0
+tomli @ file:///home/conda/feedstock_root/build_artifacts/tomli_1644342247877/work
+wheel==0.37.1
