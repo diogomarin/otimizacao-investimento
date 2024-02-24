@@ -1,0 +1,128 @@
+{
+    "especialidades_medicas": [
+      {
+        "especialidade": "Neurologia",
+        "salas_atendimento": [
+          {
+            "sala": "Sala 1",
+            "disponivel": true
+          },
+          {
+            "sala": "Sala 2",
+            "disponivel": true
+          }
+        ],
+        "medicos_disponiveis": [
+          {
+            "nome_medico": "Dr. Lucas Alves",
+            "crm": "98765",
+            "sala_atendimento": "Sala 1",
+            "horarios_atendimento": {
+              "segunda-feira": [
+                {"horario": "09:00", "disponivel": true},
+                {"horario": "10:00", "disponivel": true},
+                {"horario": "11:00", "disponivel": true},
+                {"horario": "15:00", "disponivel": true},
+                {"horario": "16:00", "disponivel": true},
+                {"horario": "17:00", "disponivel": true}
+              ],
+              "quarta-feira": [
+                {"horario": "09:00", "disponivel": true},
+                {"horario": "10:00", "disponivel": true},
+                {"horario": "11:00", "disponivel": true},
+                {"horario": "15:00", "disponivel": true},
+                {"horario": "16:00", "disponivel": true},
+                {"horario": "17:00", "disponivel": true}
+              ],
+              "sexta-feira": [
+                {"horario": "09:00", "disponivel": true},
+                {"horario": "10:00", "disponivel": true},
+                {"horario": "11:00", "disponivel": true},
+                {"horario": "15:00", "disponivel": true},
+                {"horario": "16:00", "disponivel": true},
+                {"horario": "17:00", "disponivel": true}
+              ]
+            }
+          },
+          {
+            "nome_medico": "Dra. Ana Lima",
+            "crm": "12345",
+            "sala_atendimento": "Sala 1",
+            "horarios_atendimento": {
+              "terca-feira": [
+                {"horario": "09:00", "disponivel": true},
+                {"horario": "10:00", "disponivel": true},
+                {"horario": "11:00", "disponivel": true},
+                {"horario": "15:00", "disponivel": true},
+                {"horario": "16:00", "disponivel": true},
+                {"horario": "17:00", "disponivel": true}
+              ],
+              "quinta-feira": [
+                {"horario": "09:00", "disponivel": true},
+                {"horario": "10:00", "disponivel": true},
+                {"horario": "11:00", "disponivel": true},
+                {"horario": "15:00", "disponivel": true},
+                {"horario": "16:00", "disponivel": true},
+                {"horario": "17:00", "disponivel": true}
+              ]
+            }
+          },
+          {
+            "nome_medico": "Dr. Maria Silva",
+            "crm": "54321",
+            "sala_atendimento": "Sala 2",
+            "horarios_atendimento": {
+              "segunda-feira": [
+                {"horario": "09:00", "disponivel": true},
+                {"horario": "10:00", "disponivel": true},
+                {"horario": "11:00", "disponivel": true},
+                {"horario": "15:00", "disponivel": true},
+                {"horario": "16:00", "disponivel": true},
+                {"horario": "17:00", "disponivel": true}
+              ],
+              "quarta-feira": [
+                {"horario": "09:00", "disponivel": true},
+                {"horario": "10:00", "disponivel": true},
+                {"horario": "11:00", "disponivel": true},
+                {"horario": "15:00", "disponivel": true},
+                {"horario": "16:00", "disponivel": true},
+                {"horario": "17:00", "disponivel": true}
+              ],
+              "sexta-feira": [
+                {"horario": "09:00", "disponivel": true},
+                {"horario": "10:00", "disponivel": true},
+                {"horario": "11:00", "disponivel": true},
+                {"horario": "15:00", "disponivel": true},
+                {"horario": "16:00", "disponivel": true},
+                {"horario": "17:00", "disponivel": true}
+              ]
+            }
+          },
+          {
+            "nome_medico": "Dra. Lucas Oliveira",
+            "crm": "67890",
+            "sala_atendimento": "Sala 2",
+            "horarios_atendimento": {
+              "terca-feira": [
+                {"horario": "09:00", "disponivel": true},
+                {"horario": "10:00", "disponivel": true},
+                {"horario": "11:00", "disponivel": true},
+                {"horario": "15:00", "disponivel": true},
+                {"horario": "16:00", "disponivel": true},
+                {"horario": "17:00", "disponivel": true}
+              ],
+              "quinta-feira": [
+                {"horario": "09:00", "disponivel": true},
+                {"horario": "10:00", "disponivel": true},
+                {"horario": "11:00", "disponivel": true},
+                {"horario": "15:00", "disponivel": true},
+                {"horario": "16:00", "disponivel": true},
+                {"horario": "17:00", "disponivel": true}
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+  
