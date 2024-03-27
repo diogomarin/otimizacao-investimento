@@ -3,7 +3,7 @@ import random
 opcoes_investimento = {}
 pesos = {}
 
-for linha in open('D:/GitHub/pratica-code/bootcamp-seletivo-enacom/investimentos.txt'):
+for linha in open('investimentos.txt'):
     _opcao, _descricao, _custo, _retorno, _risco, _outro = linha.split(',')
     
     opcoes_investimento.setdefault((int(_opcao)), [])
@@ -36,7 +36,7 @@ def funcao_objetivo(solucao):
             retorno_a += atual[solucao[i]][0][3]
             capital_investido += atual[solucao[i]][0][2]
             carteira_a.append((atual[solucao[i]][0][0], atual[solucao[i]][0][1]))
-        elif (atual[solucao[i]][0][4] == 'Médio') and (retorno_m + atual[solucao[i]][0][3] <= teto_carteira_m) and (capital_investido + atual[solucao[i]][0][2] <= capital_disponivel):
+        elif (atual[solucao[i]][0][4] == 'Medio') and (retorno_m + atual[solucao[i]][0][3] <= teto_carteira_m) and (capital_investido + atual[solucao[i]][0][2] <= capital_disponivel):
             retorno_m += atual[solucao[i]][0][3]
             capital_investido += atual[solucao[i]][0][2]
             carteira_m.append((atual[solucao[i]][0][0], atual[solucao[i]][0][1]))
