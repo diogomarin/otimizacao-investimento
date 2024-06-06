@@ -16,10 +16,10 @@ dominio = []
 for i in range(1, len(opcoes_investimento) + 1):
     dominio.append((opcoes_investimento[i][0][0]))
 
-capital_disponivel = 2400000
-teto_carteira_a = 900000 #carteira de alto risco
-teto_carteira_m = 1500000 #carteira de medio risco
-teto_carteira_b = 1200000 #carteira de baixo risco
+capital_disponivel = 3000000
+teto_carteira_a = 300000 #carteira de alto risco
+teto_carteira_m = 500000 #carteira de medio risco
+teto_carteira_b = 1000000 #carteira de baixo risco
 
 def funcao_objetivo(solucao):
     capital_investido = 0
